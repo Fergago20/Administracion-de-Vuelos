@@ -3,14 +3,11 @@ package ni.edu.uam.administracion.navegacion
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import ni.edu.uam.administracion.vistas.AdministrarPasajerosScreen
-import ni.edu.uam.administracion.vistas.AdministrarVuelosScreen
-import ni.edu.uam.administracion.vistas.CrearPasajeroScreen
-import ni.edu.uam.administracion.vistas.CrearVueloScreen
-import ni.edu.uam.administracion.vistas.HomeScreen
+import ni.edu.uam.administracion.vistas.* // Asegúrate de importar CargaScreen
+import androidx.activity.compose.BackHandler
 
-// Navegación simple basada en estado para evitar dependencia de Navigation Compose
 sealed class Screen {
+	object Carga : Screen() // <-- 1. Añadimos la pantalla de carga
 	object Home : Screen()
 	object CrearVuelo : Screen()
 	object CrearPasajero : Screen()
@@ -20,9 +17,19 @@ sealed class Screen {
 
 @Composable
 fun Navegacion() {
-	val current = remember { mutableStateOf<Screen>(Screen.Home) }
+	// 2. Iniciamos en Screen.Carga para que sea lo primero que se vea
+	val current = remember { mutableStateOf<Screen>(Screen.Carga) }
+
+	BackHandler(enabled = current.value != Screen.Home && current.value != Screen.Carga) {
+		current.value = Screen.Home
+	}
 
 	when (val screen = current.value) {
+		// 3. Agregamos el caso para la pantalla de carga
+		is Screen.Carga -> CargaScreen(onLoadingFinished = {
+			current.value = Screen.Home
+		})
+
 		is Screen.Home -> HomeScreen(
 			onCrearVuelo = { current.value = Screen.CrearVuelo },
 			onCrearPasajero = { current.value = Screen.CrearPasajero },
@@ -36,9 +43,14 @@ fun Navegacion() {
 			onAdministrarPasajeros = { index -> current.value = Screen.AdministrarPasajeros(index) }
 		)
 
-		is Screen.AdministrarVuelos -> AdministrarVuelosScreen(onVerPasajeros = { index -> current.value = Screen.AdministrarPasajeros(index) })
+		is Screen.AdministrarVuelos -> AdministrarVuelosScreen(
+			onVerPasajeros = { index -> current.value = Screen.AdministrarPasajeros(index) },
+			onDone = { current.value = Screen.Home }
+		)
 
-		is Screen.AdministrarPasajeros -> AdministrarPasajerosScreen(vueloIndex = screen.index)
+		is Screen.AdministrarPasajeros -> AdministrarPasajerosScreen(
+			vueloIndex = screen.index,
+			onDone = { current.value = Screen.AdministrarVuelos }
+		)
 	}
 }
-

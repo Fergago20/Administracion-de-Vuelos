@@ -1,5 +1,6 @@
 package ni.edu.uam.administracion.modelo
 
+@Suppress("unused")
 class Vuelo(private val numeroVuelo: String,
     private var aerolinea: String,
     private var destino: String,
@@ -33,8 +34,12 @@ class Vuelo(private val numeroVuelo: String,
         return destino
     }
 
+    fun getTipoViaje(): String {
+        return tipViaje
+    }
+
     fun DarDatosVuelo(): String{
-        return "Numero de vuelo: $numeroVuelo\nAerolinea: $aerolinea\nDestino: $destino"
+        return "Numero de vuelo: $numeroVuelo\nAerolinea: ${getAerolinea()}\nDestino: ${getDestino()}\nTipo de viaje: ${getTipoViaje()}"
     }
 
     fun DarListaPasajeros(): MutableList<Pasajero> {
