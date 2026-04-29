@@ -53,7 +53,7 @@ fun AdministrarVuelosScreen(onVerPasajeros: (Int) -> Unit, onDone: () -> Unit) {
                 mensaje = if (desencolado) {
                     "Se desencoló el primer vuelo"
                 } else {
-                    "No se pudo desencolar el primer vuelo, debe tener algun pasajero"
+                    "No se pudo desencolar el primer vuelo, debe tener algún pasajero"
                 }
                 refrescar++
             },
