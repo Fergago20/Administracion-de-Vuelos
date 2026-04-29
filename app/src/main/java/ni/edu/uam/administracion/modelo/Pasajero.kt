@@ -1,8 +1,8 @@
 package ni.edu.uam.administracion.modelo
 
 class Pasajero(private var nombre: String,
-               private var edad: Int,
-               private var asiento: Int) {
+               private var apellido: String,
+               private var edad: Int){
     private var foto: String? = null
 
     fun setFoto(foto: String) {
@@ -22,11 +22,11 @@ class Pasajero(private var nombre: String,
         return edad
     }
 
-    fun getAsiento(): Int {
-        return asiento
+    fun getApellidos(): String {
+        return apellido
     }
 
     fun DarDatosPasajero(): String{
-        return "Nombre: $nombre\nEdad: $edad\nAsiento: $asiento"
+        return "Nombre: $nombre\nApellido: $apellido\nEdad: $edad"
     }
 }
