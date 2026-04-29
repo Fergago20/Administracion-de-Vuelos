@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import ni.edu.uam.administracion.modelo.DataRepository
 
 @Composable
-fun AdministrarPasajerosScreen(vueloIndex: Int) {
+fun AdministrarPasajerosScreen(vueloIndex: Int, onDone: () -> Unit) {
     var refrescar by remember { mutableStateOf(0) }
     val vuelos = DataRepository.cola.DarLista()
 
@@ -24,6 +25,19 @@ fun AdministrarPasajerosScreen(vueloIndex: Int) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
+        OutlinedButton(
+            onClick = onDone,
+            modifier = Modifier.padding(bottom = 16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Volver",
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("Volver")
+        }
+
         if (vuelos.isEmpty() || vueloIndex < 0 || vueloIndex >= vuelos.size) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
