@@ -1,15 +1,20 @@
 package ni.edu.uam.administracion.modelo
 
+@Suppress("unused")
 class Cola {
     private val vuelos: MutableList<Vuelo> = mutableListOf()
 
     fun encolar(vuelo: Vuelo) {
-        vuelos.add(vuelo)
+        if (vuelo.getTipoViaje().equals("Emergencia", ignoreCase = true)) {
+            AgregarAlInicio(vuelo)
+        } else {
+            vuelos.add(vuelo)
+        }
     }
 
     fun desencolar(): Boolean {
         if (!estaVacia()) {
-            var vuelo = vuelos[0]
+            val vuelo = vuelos[0]
             if(vuelo.TienePasajeros()){
                 vuelos.removeAt(0)
                 return true
@@ -23,7 +28,7 @@ class Cola {
         return vuelos.isEmpty()
     }
 
-    fun tamaño(): Int {
+    fun tamano(): Int {
         return vuelos.size
     }
 

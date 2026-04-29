@@ -1,8 +1,11 @@
 package ni.edu.uam.administracion.modelo
 
-class Pasajero(private var nombre: String,
-               private var apellido: String,
-               private var edad: Int){
+class Pasajero(
+    private var nombre: String,
+    private var apellido: String,
+    private var edad: Int
+) {
+    private val numeroPasajero: String = generarNumeroPasajero()
     private var foto: String? = null
 
     fun setFoto(foto: String) {
@@ -11,6 +14,10 @@ class Pasajero(private var nombre: String,
 
     fun getFoto(): String? {
         return foto
+    }
+
+    fun getNumeroPasajero(): String {
+        return numeroPasajero
     }
 
 
@@ -27,6 +34,15 @@ class Pasajero(private var nombre: String,
     }
 
     fun DarDatosPasajero(): String{
-        return "Nombre: $nombre\nApellido: $apellido\nEdad: $edad"
+        return "No. Pasajero: $numeroPasajero\nNombre: $nombre\nApellido: $apellido\nEdad: $edad"
+    }
+
+    companion object {
+        private var contador = 1893
+
+        private fun generarNumeroPasajero(): String {
+            contador += 1
+            return "No-#$contador"
+        }
     }
 }
